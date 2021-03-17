@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const icons = [
+  var icons = [
     {
       name: "cat",
       prefix: "fa-",
@@ -98,19 +98,42 @@ $(document).ready(function () {
     },
   ];
 
+  let colors = ["blue", "orange", "purple"];
+
+  let coloredArray = [];
+
   const square = $(".icons");
 
   icons.forEach((element) => {
-    const { name, prefix, type, family } = element;
+    const { name, prefix, type, family, color } = element;
 
     const onHtml = `
 	<div>
-	  	<i class="${family} ${prefix}${name}"></i>
-		<p>${name}</p>
+	  	<i class="${family} ${prefix}${name}" style="color: ${color}"></i>
+		<p>${name.toUpperCase()}</p>
 		  
     </div>
 	  `;
 
     square.append(onHtml);
   });
+
+  let types = [];
+
+  icons.forEach((element) => {
+    if (!types.includes(element.type)) {
+      types.push(element.type);
+    }
+  });
+  console.log(types);
+
+  for (let i = 0; i < icons.length; i++) {
+    const icon = icons[i];
+    const indexType = types.indexOf(icon.type);
+
+    icon.color = colors[indexType];
+    coloredArray.push(icon.color);
+  }
+
+  console.log(icons);
 });
