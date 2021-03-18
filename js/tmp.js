@@ -104,7 +104,21 @@ $(document).ready(function () {
 
   const square = $(".icons");
 
+  let types = [];
+
   icons.forEach((element) => {
+    if (!types.includes(element.type)) {
+      types.push(element.type);
+    }
+  });
+  console.log(types);
+
+  icons.forEach((element) => {
+    const icon = element;
+    const indexType = types.indexOf(icon.type);
+
+    icon.color = colors[indexType];
+    coloredArray.push(icon.color);
     const { name, prefix, type, family, color } = element;
 
     const onHtml = `
@@ -117,23 +131,6 @@ $(document).ready(function () {
 
     square.append(onHtml);
   });
-
-  let types = [];
-
-  icons.forEach((element) => {
-    if (!types.includes(element.type)) {
-      types.push(element.type);
-    }
-  });
-  console.log(types);
-
-  for (let i = 0; i < icons.length; i++) {
-    const icon = icons[i];
-    const indexType = types.indexOf(icon.type);
-
-    icon.color = colors[indexType];
-    coloredArray.push(icon.color);
-  }
 
   console.log(icons);
 });
