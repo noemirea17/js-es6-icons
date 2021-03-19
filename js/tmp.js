@@ -106,6 +106,8 @@ $(document).ready(function () {
 
   let types = [];
 
+  const select = $(".type");
+
   icons.forEach((element) => {
     if (!types.includes(element.type)) {
       types.push(element.type);
@@ -113,24 +115,44 @@ $(document).ready(function () {
   });
   console.log(types);
 
-  icons.forEach((element) => {
-    const icon = element;
-    const indexType = types.indexOf(icon.type);
+  print(icons, square);
 
-    icon.color = colors[indexType];
-    coloredArray.push(icon.color);
-    const { name, prefix, type, family, color } = element;
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    select.append(`<option value="${type}">${type}</option>`);
+  }
 
-    const onHtml = `
-	<div>
-	  	<i class="${family} ${prefix}${name}" style="color: ${color}"></i>
-		<p>${name.toUpperCase()}</p>
-		  
-    </div>
-	  `;
+  select.change({ square }, function (event) {
+    const container = event.data.container;
+    const optionSelected = $(this).val();
+    console.log(optionSelected);
 
-    square.append(onHtml);
+    const filtered = coloredArray.filter((element) => {
+      return element === optionSelected;
+    });
+
+    print(filtered, square);
   });
 
-  console.log(icons);
+  function print(icons, square) {
+    square.html("");
+    icons.forEach((element) => {
+      const icon = element;
+      const indexType = types.indexOf(icon.type);
+
+      icon.color = colors[indexType];
+      coloredArray.push(icon.color);
+      const { name, prefix, type, family, color } = element;
+
+      const onHtml = `
+    <div>
+        <i class="${family} ${prefix}${name}" style="color: ${color}"></i>
+      <p>${name.toUpperCase()}</p>
+        
+      </div>
+      `;
+
+      square.append(onHtml);
+    });
+  }
 });
